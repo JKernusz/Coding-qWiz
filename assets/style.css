@@ -70,3 +70,7 @@ header h1 {
 .incorrect{
   background: red;
 }
+
+.button:disabled{
+  cursor: not-allowed;
+}

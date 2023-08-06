@@ -20,41 +20,41 @@ const questions = [
     ]
   },
   {
-    question:"Wich one of these is considered a boolean?",
+    question:"Wich one of these is considered a string?",
     answers: [
-      { text: "true", correct: true},
+      { text: "true", correct: false},
       { text: "0", correct: false },
       { text: "yes", correct: false},
-      { text: "1", correct: false },
+      { text: '"1"', correct: true },
 
     ]
   },
   {
-    question:"Wich one of these is considered a boolean?",
+    question:"Wich one of these symbols an array?",
     answers: [
-      { text: "true", correct: true},
-      { text: "0", correct: false },
-      { text: "yes", correct: false},
-      { text: "1", correct: false },
+      { text: "[]", correct: true},
+      { text: "''", correct: false },
+      { text: "$", correct: false},
+      { text: "<>", correct: false },
 
     ]
   },
   {
-    question:"Wich one of these is considered a boolean?",
+    question:"Wich one of these is considered a number?",
     answers: [
-      { text: "true", correct: true},
-      { text: "0", correct: false },
+      { text: "true", correct: false},
+      { text: "0", correct: true },
       { text: "yes", correct: false},
-      { text: "1", correct: false },
+      { text: "'1'", correct: false },
 
     ]
   },
   {
-    question: "Wich one of these is considered a boolean?",
+    question: 'Wich one of these is the proper index of "cats" in this array? "[puppies, kittens, dogs, cats]"',
     answers: [
-      { text: "true", correct: true},
+      { text: "2", correct: false},
       { text: "0", correct: false },
-      { text: "yes", correct: false},
+      { text: "3", correct: true},
       { text: "1", correct: false },
 
     ]
@@ -96,18 +96,23 @@ function selectAnswer(e){
   const isCorrect = selectedBtn.dataset.correct === "true";
   if(isCorrect){
     selectedBtn.classList.add('correct');
+    score++;
+    
   }
   else{
     selectedBtn.classList.add('incorrect');
+    
   }
   Array.from(answerbutton.children).forEach(button => {
     if(button.dataset.correct === 'true'){
       button.classList.add('correct');
+      
     }
     button.disabled = true;
   });
   nextbutton.style.display = 'block';
 }
+
 
 
 
@@ -121,6 +126,7 @@ function setTime() {
           clearInterval(timerInterval);
           // Calls function to display game over screen
           sendMessage();
+          gameOver()
         }
     
       }, 1000);}
@@ -132,6 +138,37 @@ mainEl.appendChild(gameOver);
 
 }
 
+function showScore(){
+  resetState();
+  questionElement.innerHTML = 'you scored ' + score + ' out of ' +questions.length +'!';
+  nextbutton.innerHTML = 'Play Again?';
+  nextbutton.style.display = 'block'
+  
+}
+
+function handleNextButton(){
+  currentQuestionIndex++;
+  if(currentQuestionIndex < questions.length){
+    showQuestion();
+  }else{
+    showScore()
+  }
+}
+
+
+nextbutton.addEventListener('click', ()=>{
+  if(currentQuestionIndex < questions.length){
+    handleNextButton();
+  }
+  else{
+    currentQuestionIndex = 0
+  score = 0
+  nextbutton.innerHTML = "Next"
+ setTime()
+ showQuestion()
+ document.getElementById("Start-quiz").style.display = "none";
+}})
+
 startBtn.addEventListener("click", function(){
   currentQuestionIndex = 0
   score = 0
@@ -142,3 +179,8 @@ startBtn.addEventListener("click", function(){
  
 
 })
+
+function gameOver(){
+  showScore()
+  
+}
