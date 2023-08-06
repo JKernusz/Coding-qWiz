@@ -59,5 +59,14 @@ header h1 {
 
 #next-btn {
   background: #12f5bc;
+  display: none;
 
+}
+
+.correct{
+  background: #2ef306;
+}
+
+.incorrect{
+  background: red;
 }

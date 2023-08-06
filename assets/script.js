@@ -1,5 +1,6 @@
 var secondsLeft = 30;
 var currentQuestionIndex = 0
+var score = 0
 var timeEl = document.querySelector(".time");
 var mainEl = document.getElementById("main");
 var local = localStorage;
@@ -60,17 +61,52 @@ const questions = [
   }
 ]
 
-
+function resetState() {
+  nextbutton.style.display = 'none'
+  while(answerbutton.firstChild){
+    answerbutton.removeChild(answerbutton.firstChild)
+  }
+}
 
 
 
 function showQuestion() {
+  resetState()
   let currentQuestion = questions[currentQuestionIndex];
   let questionNo = currentQuestionIndex + 1;
   questionElement.innerHTML = questionNo = ". " + currentQuestion.question;
 
+  currentQuestion.answers.forEach(answer => {
+    const button = document.createElement('button');
+    button.innerHTML = answer.text;
+    button.classList.add('button');
+    answerbutton.appendChild(button);
+    if(answer.correct){
+      button.dataset.correct = answer.correct;
+    }
+    button.addEventListener('click', selectAnswer);
+  });
+
   
 
+}
+
+function selectAnswer(e){
+  const selectedBtn = e.target;
+  const isCorrect = selectedBtn.dataset.correct === "true";
+  if(isCorrect){
+    selectedBtn.classList.add('correct');
+  }
+  else{
+    selectedBtn.classList.add('incorrect');
+  }
+  Array.from(answerbutton.children).forEach(button => {
+    if(button.dataset.correct === 'true'){
+      button.classList.add('correct');
+    }
+    button.disabled = true;
+  });
+  nextbutton.style.display = 'block';
 }
 
 
@@ -97,8 +133,11 @@ mainEl.appendChild(gameOver);
 }
 
 startBtn.addEventListener("click", function(){
+  currentQuestionIndex = 0
+  score = 0
+  nextbutton.innerHTML = "Next"
  setTime()
- showQuestions()
+ showQuestion()
  document.getElementById("Start-quiz").style.display = "none";
  
 
