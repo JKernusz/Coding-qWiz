@@ -52,10 +52,10 @@ const questions = [
   {
     question: 'Wich one of these is the proper index of "cats" in this array? "[puppies, kittens, dogs, cats]"',
     answers: [
-      { text: "2", correct: false},
-      { text: "0", correct: false },
+      { text: "1", correct: false},
+      { text: "2", correct: false },
       { text: "3", correct: true},
-      { text: "1", correct: false },
+      { text: "4", correct: false },
 
     ]
   }
@@ -63,6 +63,7 @@ const questions = [
 
 function resetState() {
   nextbutton.style.display = 'none'
+  sendMessage()
   while(answerbutton.firstChild){
     answerbutton.removeChild(answerbutton.firstChild)
   }
@@ -97,11 +98,12 @@ function selectAnswer(e){
   if(isCorrect){
     selectedBtn.classList.add('correct');
     score++;
+    secondsLeft + 5
     
   }
   else{
     selectedBtn.classList.add('incorrect');
-    
+    secondsLeft - 5
   }
   Array.from(answerbutton.children).forEach(button => {
     if(button.dataset.correct === 'true'){
@@ -126,7 +128,7 @@ function setTime() {
           clearInterval(timerInterval);
           // Calls function to display game over screen
           sendMessage();
-          gameOver()
+          showScore()
         }
     
       }, 1000);}
@@ -164,6 +166,7 @@ nextbutton.addEventListener('click', ()=>{
     currentQuestionIndex = 0
   score = 0
   nextbutton.innerHTML = "Next"
+  secondsLeft = 30
  setTime()
  showQuestion()
  document.getElementById("Start-quiz").style.display = "none";
@@ -180,7 +183,3 @@ startBtn.addEventListener("click", function(){
 
 })
 
-function gameOver(){
-  showScore()
-  
-}
