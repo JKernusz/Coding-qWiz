@@ -3,7 +3,7 @@ var currentQuestionIndex = 0
 var score = 0
 var timeEl = document.querySelector(".time");
 var mainEl = document.getElementById("main");
-var local = localStorage;
+var local = localStorage.getItem('score');
 var startBtn = document.querySelector("#Start-quiz");
 const questionElement = document.getElementById('questions');
 const answerbutton = document.getElementById('answer-buttons');
@@ -98,14 +98,14 @@ function selectAnswer(e){
   if(isCorrect){
     selectedBtn.classList.add('correct');
     score++;
-    secondsLeft + 5
+    
     
   }
   else{
     selectedBtn.classList.add('incorrect');
-    secondsLeft - 5
+    secondsLeft= secondsLeft-5
   }
-  Array.from(answerbutton.children).forEach(button => {
+  Array.from(answerbutton.children).forEach((button) => {
     if(button.dataset.correct === 'true'){
       button.classList.add('correct');
       
@@ -123,12 +123,14 @@ function setTime() {
         secondsLeft--;
         timeEl.textContent = secondsLeft + " seconds left.";
     
-        if(secondsLeft === 0) {
+        if(secondsLeft <= 0 || currentQuestionIndex === 5 ) {
           // Stops execution of action at set interval
           clearInterval(timerInterval);
           // Calls function to display game over screen
           sendMessage();
           showScore()
+          localStorage.setItem('score', score)
+          
         }
     
       }, 1000);}
@@ -154,6 +156,7 @@ function handleNextButton(){
     showQuestion();
   }else{
     showScore()
+    console.log(local)
   }
 }
 
