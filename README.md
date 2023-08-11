@@ -25,3 +25,5 @@ MIT
 
 ## link to deployed application
 
+https://jkernusz.github.io/Coding-qWiz/
+
