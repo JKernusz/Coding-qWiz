@@ -18,3 +18,10 @@ THEN I can save my initials and score
 No installation required
 
 ## Usage
+For a class project
+
+## license
+MIT
+
+## link to deployed application
+
